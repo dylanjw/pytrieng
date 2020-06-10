@@ -59,7 +59,7 @@ def word_from_end_node(node):
     return word
 
 
-def list_from_node(node):
+def get_words_from_node(node):
     end_nodes = []
 
     def inner(node):
@@ -97,16 +97,13 @@ def retrieve(trie, val):
             raise ValueError(f"{val} is not an English word")
 
 
-def prefix_for(trie, val):
-    node = retrieve(trie, val)
-
-
-
-
 def english():
      with open("words.txt", "r") as w:
          for word in w.readlines():
              yield word.strip()
 
+trie = parse_words(english(), Node())
 
-ENGLISH_TRIE = parse_words(english(), Node())
+def prefixed_with(val):
+    node = retrieve(trie, val)
+    return list(get_words_from_node(node))

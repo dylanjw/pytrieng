@@ -41,6 +41,6 @@ def test_word_from_end_node():
 
 def test_words_from_prefix():
     prefix = retrieve(ENGLISH_TRIE, "bomb")
-    words = list_from_node(prefix)
+    words = get_word_from_node(prefix)
     assert next(words) == "bomb"
     assert next(words) == "bombacaceae"
