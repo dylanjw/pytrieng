@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import pickle
 
 class EndNode:
     parent = None
@@ -60,27 +61,27 @@ def word_from_end_node(node):
 
 
 def get_words_from_node(node):
-    end_nodes = []
+    words = []
+    prefix = word_from_end_node(node)[:-1]
 
-    def inner(node):
-        nonlocal end_nodes
+    def inner(node, prefix):
+        nonlocal words
 
-        if isinstance(node, EndNode):
-            end_nodes.append(node)
+        if not isinstance(node, EndNode):
+            prefix = prefix + node.val
+        else:
+            words.append(prefix)
             return
 
         if node.children is None:
             return
 
-
         for child in node.children.values():
-            inner(child)
+            inner(child, prefix)
 
-    for child in node.parent.children.values():
-        inner(child)
+    inner(node.parent, prefix)
 
-    for node in end_nodes:
-        yield word_from_end_node(node)
+    return words
 
 
 def retrieve(trie, val):
@@ -102,8 +103,14 @@ def english():
          for word in w.readlines():
              yield word.strip()
 
+
 trie = parse_words(english(), Node())
+
 
 def prefixed_with(val):
     node = retrieve(trie, val)
     return list(get_words_from_node(node))
+
+def old_prefixed_with(val):
+    node = retrieve(trie, val)
+    return list(old_get_words_from_node(node))

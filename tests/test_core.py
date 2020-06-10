@@ -21,26 +21,20 @@ def test_parse_dict():
 
 def test_english_words():
     words = english()
-    next(words)
-    next(words)
-    next(words)
-    next(words)
-    next(words)
-    next(words)
-    assert next(words) == "aardwolf"
+    assert "aardwolf" in words
 
 
 def test_retrieve_a_random_word():
-    assert retrieve(ENGLISH_TRIE, "bombastic")
+    assert retrieve(trie, "bombastic")
 
 
 def test_word_from_end_node():
-    node = retrieve(ENGLISH_TRIE, "bombastic")
+    node = retrieve(trie, "bombastic")
     word_from_end_node(node) == "bombastic"
 
 
 def test_words_from_prefix():
-    prefix = retrieve(ENGLISH_TRIE, "bomb")
-    words = get_word_from_node(prefix)
-    assert next(words) == "bomb"
-    assert next(words) == "bombacaceae"
+    prefix = retrieve(trie, "bomb")
+    words = get_words_from_node(prefix)
+    assert "bomb" in words
+    assert "bombacaceae" in words
